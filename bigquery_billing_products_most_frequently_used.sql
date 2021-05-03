@@ -13,7 +13,9 @@
 --  https://www.linkedin.com/in/harisekhon
 --
 
--- BigQuery Billing Query - most frequently used products costing more than 1 dollar
+-- BigQuery Billing Query
+--
+-- most frequently used products costing more than 1 dollar
 
 SELECT
   product,
@@ -25,4 +27,4 @@ WHERE
 GROUP BY
   product
 ORDER BY
-  billing_records DESC
+  billing_records DESC;

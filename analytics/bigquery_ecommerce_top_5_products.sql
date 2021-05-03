@@ -1,6 +1,6 @@
 --
 --  Author: Hari Sekhon
---  Date: 2020-08-06 00:23:40 +0100 (Thu, 06 Aug 2020)
+--  Date: 2020-09-06 09:36:31 +0100 (Sun, 06 Sep 2020)
 --
 --  vim:ts=2:sts=2:sw=2:et:filetype=sql
 --
@@ -13,18 +13,16 @@
 --  https://www.linkedin.com/in/harisekhon
 --
 
--- PostgreSQL count of sessions in each state
---
--- Requires PostgreSQL 9.2+
---
--- Tested on PostgreSQL 9.2+, 10.x, 11.x, 12.x
-
 SELECT
-  count(1),
-  state
+  p.v2ProductName,
+  p.v2ProductCategory,
+  SUM(p.productQuantity) AS units_sold,
+  ROUND(SUM(p.localProductRevenue/1000000),2) AS revenue
 FROM
-  pg_stat_activity
-GROUP BY
-  state
+	`data-to-insights.ecommerce.web_analytics`,
+UNNEST(hits) AS h,
+UNNEST(h.product) AS p
+GROUP BY 1, 2
 ORDER BY
-  1 DESC;
+	revenue DESC
+LIMIT 5;

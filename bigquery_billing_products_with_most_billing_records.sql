@@ -13,7 +13,9 @@
 --  https://www.linkedin.com/in/harisekhon
 --
 
--- BigQuery Billing Query - products with most billing records
+-- BigQuery Billing Query
+--
+-- products with most billing records
 
 SELECT
   product,
@@ -23,4 +25,4 @@ FROM
 GROUP BY
   product
 ORDER BY
-  billing_records DESC
+  billing_records DESC;

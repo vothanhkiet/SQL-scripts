@@ -13,7 +13,9 @@
 --  https://www.linkedin.com/in/harisekhon
 --
 
--- BigQuery Billing Query - commonly charged units of measure
+-- BigQuery Billing Query
+--
+-- commonly charged units of measure
 
 SELECT
   usage_unit,
@@ -25,4 +27,4 @@ WHERE
 GROUP BY
   usage_unit
 ORDER BY
-  billing_records DESC
+  billing_records DESC;

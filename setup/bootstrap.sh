@@ -33,12 +33,12 @@ sudo=""
 [ "$(whoami)" = "root" ] || sudo=sudo
 
 if [ "$(uname -s)" = Darwin ]; then
-    echo "Bootstrapping Mac"
+    echo "Bootstrapping on Mac OS X:  $repo"
     if ! type brew >/dev/null 2>&1; then
         curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install | $sudo ruby
     fi
 elif [ "$(uname -s)" = Linux ]; then
-    echo "Bootstrapping Linux"
+    echo "Bootstrapping on Linux:  $repo"
     if type apk >/dev/null 2>&1; then
         $sudo apk --no-cache add bash git make curl
     elif type apt-get >/dev/null 2>&1; then
@@ -61,11 +61,16 @@ fi
 
 if [ "${srcdir##*/}" = setup ]; then
     cd "$srcdir/.."
-elif [ -d "$directory" ]; then
-    cd "$directory"
 else
-    git clone "$repo" "$directory"
-    cd "$directory"
+    # if this is an empty directory eg. a cache mount, then remove it to get a proper checkout
+    rmdir "$directory" 2>/dev/null || :
+    if [ -d "$directory" ]; then
+        cd "$directory"
+        git pull
+    else
+        git clone "$repo" "$directory"
+        cd "$directory"
+    fi
 fi
 
 make
